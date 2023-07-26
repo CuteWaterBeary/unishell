@@ -1,25 +1,39 @@
-
 using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
 using System.IO;
+using UnityEditor.Graphs;
 
 public class ConsoleWindow : EditorWindow
 {
-    private const string PROPERTY_SCRIPT_DIR = "unishell_script_dir";
-    private const string PROPERTY_COLOR_FG = "unishell_fg";
-    private const string PROPERTY_COLOR_BG = "unishell_bg";
+    private
+    const string PROPERTY_SCRIPT_DIR = "unishell_script_dir";
+    private
+    const string PROPERTY_COLOR_FG = "unishell_fg";
+    private
+    const string PROPERTY_COLOR_BG = "unishell_bg";
     CommandEvaluator cmdEval;
     Vector2 scrollPos;
 
-    [MenuItem("Window/Unishell")]
+    [MenuItem("Tools/Unishell", false, -9999)]
     static void CreateWindow()
     {
         ConsoleWindow window = EditorWindow.GetWindow<ConsoleWindow>();
         window.Init();
     }
 
+
+    // static SettingsProvider CreateProjectSettingsProvider()
+    // {
+    //     var provider = new SettingsProvider("Preferences/Unishell", SettingsScope.User);
+    //     provider.guiHandler = (sarchContext) => PreferencesGUI();
+    //     return provider;
+    // }
+
     [PreferenceItem("Unishell")]
+
+    // [SettingsProvider()]
+
     public static void PreferencesGUI()
     {
         var bgColor = LoadEditorPrefsColor(PROPERTY_COLOR_BG);
@@ -66,12 +80,12 @@ public class ConsoleWindow : EditorWindow
         var toReturn = new List<string>();
         var scriptFolder = EditorPrefs.GetString(PROPERTY_SCRIPT_DIR, "/Resources/Unishell");
         var fullFolder = Application.dataPath + scriptFolder;
-        if(!Directory.Exists(fullFolder))
+        if (!Directory.Exists(fullFolder))
         {
             return toReturn;
         }
         var files = Directory.EnumerateFiles(fullFolder, "*.csx", SearchOption.AllDirectories);
-        foreach(var file in files)
+        foreach (var file in files)
         {
             toReturn.Add(File.ReadAllText(file));
         }
@@ -151,7 +165,6 @@ public class ConsoleWindow : EditorWindow
             scrollPos = new Vector2(0, float.MaxValue);
         }
         scrollPos = EditorGUILayout.BeginScrollView(scrollPos, GUILayout.Width(position.width), GUILayout.Height(position.height - 30));
-
 
         EditorGUILayout.TextArea(cmdEval.consoleText);
         EditorGUILayout.EndScrollView();
