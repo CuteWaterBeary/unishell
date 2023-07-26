@@ -1,10 +1,11 @@
 # unishell: Interactive C# Shell for the Unity3d editor
 
+
+## Merge with https://github.com/CuteWaterBeary/unishell-autocomplete
+
+
 ## Installation
 Copy Assets/Plugins/Unishell into your project
-
-### Binaries
-Binary unitypackage files can be downloaded here: https://github.com/rje/unishell/releases
 
 ## Use
 
